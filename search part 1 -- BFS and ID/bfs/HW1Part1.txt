@@ -1,0 +1,16 @@
+***Size: 2***
+Average depth: 1.58
+Average number inserted: 3.58
+Average number removed: 3.77
+Average runtime: 0.015625715255737305 seconds
+***Size: 3***
+Average depth: 5.5
+Average number inserted: 383.48
+Average number removed: 224.01
+Average runtime: 0.12521648406982422 seconds
+***Size: 4***
+!!!TIMEOUT!!!
+Average depth: 20.19
+Average number inserted: 67157.64
+Average number removed: 36826.52
+Average runtime: 10024.494637012482 seconds
