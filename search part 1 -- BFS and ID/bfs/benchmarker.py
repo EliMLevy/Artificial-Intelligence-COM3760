@@ -1,6 +1,7 @@
 import time
 from tqdm import tqdm
 import search
+import pandas as pd
 
 
 def run_benchmark(size: int, num_runs: int):
@@ -26,6 +27,9 @@ def run_benchmark(size: int, num_runs: int):
             total_removed += 10000
             total_depth += 20
             total_time += 100
+    result = pd.DataFrame({"name": ["bfs"], "depth": [total_depth / num_runs], "inserts": [total_added / num_runs],
+                          "removes": [total_removed / num_runs], "time": [str(total_time/num_runs) + " seconds"]})
+    result.to_csv("./results_" + str(size) + "x" + str(size) + ".csv", mode='a', header=False, index=False)
     print("Timeouts: " + str(timeouts))
     print("Average depth: " + str(total_depth / num_runs))
     print("Average number inserted: " + str(total_added / num_runs))
@@ -33,6 +37,6 @@ def run_benchmark(size: int, num_runs: int):
     print("Average runtime: " + str(total_time/num_runs) + " seconds")
 
 
-run_benchmark(2, 100)
-run_benchmark(3, 100)
+# run_benchmark(2, 100)
+# run_benchmark(3, 100)
 run_benchmark(4, 100)
