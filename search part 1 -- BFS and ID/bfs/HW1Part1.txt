@@ -1,16 +1,21 @@
 ***Size: 2***
-Average depth: 1.58
-Average number inserted: 3.58
-Average number removed: 3.77
-Average runtime: 0.015625715255737305 seconds
+100%|██████████████████████████████████████████████████████████████████████| 100/100 [00:00<00:00, 28484.24it/s]
+Timeouts: 0
+Average depth: 1.64
+Average number inserted: 3.67
+Average number removed: 3.85
+Average runtime: 3.510713577270508e-05 seconds
 ***Size: 3***
-Average depth: 5.5
-Average number inserted: 383.48
-Average number removed: 224.01
-Average runtime: 0.12521648406982422 seconds
+100%|████████████████████████████████████████████████████████████████████████| 100/100 [00:00<00:00, 458.27it/s] 
+Timeouts: 0
+Average depth: 5.81
+Average number inserted: 558.41
+Average number removed: 323.25
+Average runtime: 0.0021820974349975584 seconds
 ***Size: 4***
-!!!TIMEOUT!!!
-Average depth: 20.19
-Average number inserted: 67157.64
-Average number removed: 36826.52
-Average runtime: 10024.494637012482 seconds
+100%|█████████████████████████████████████████████████████████████████████████| 100/100 [04:58<00:00,  2.99s/it] 
+Timeouts: 51
+Average depth: 16.11
+Average number inserted: 92069.79
+Average number removed: 45926.44
+Average runtime: 51.36792377471924 seconds

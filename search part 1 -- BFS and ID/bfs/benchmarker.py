@@ -1,4 +1,5 @@
 import time
+from tqdm import tqdm
 import search
 
 
@@ -8,27 +9,28 @@ def run_benchmark(size: int, num_runs: int):
     total_removed = 0
     total_depth = 0
     total_time = 0
-
-    for i in range(num_runs):
+    timeouts = 0
+    for i in tqdm(range(num_runs)):
         tic = time.time()
-        answer = search.search(size)
-        toc = time.time()
-        total_added += answer[1]
-        total_removed += answer[2]
-        total_depth += answer[3]
-        total_time += (toc-tic)
-        if toc - tic > 5:
-            print("!!!TIMEOUT!!!")
-            total_depth += 20 * (num_runs - i)
-            total_added += 10000 * (num_runs - i)
-            total_removed += 10000 * (num_runs - i)
-            total_time += 100 * (num_runs - i)
-            break
-
+        try:
+            answer = search.search(size)
+            toc = time.time()
+            total_added += answer[1]
+            total_removed += answer[2]
+            total_depth += answer[3]
+            total_time += (toc-tic)
+        except Exception:
+            # print("Timeout")
+            timeouts += 1
+            total_added += 10000
+            total_removed += 10000
+            total_depth += 20
+            total_time += 100
+    print("Timeouts: " + str(timeouts))
     print("Average depth: " + str(total_depth / num_runs))
     print("Average number inserted: " + str(total_added / num_runs))
     print("Average number removed: " + str(total_removed / num_runs))
-    print("Average runtime: " + str(total_time) + " seconds")
+    print("Average runtime: " + str(total_time/num_runs) + " seconds")
 
 
 run_benchmark(2, 100)

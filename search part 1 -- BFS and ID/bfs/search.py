@@ -1,15 +1,21 @@
 #search
 import state
 import frontier
+import time
+
+max_time = 5
 
 def search(n):
     s=state.create(n)
-    # print(s)
     added = 0
     removed = 0
     depth = 0
     f=frontier.create(s)
-    while not frontier.is_empty(f):
+    tic = time.time()
+
+    while not frontier.is_empty(f) :
+        if time.time() - tic > max_time:
+            raise Exception("Timeout")
         removed += 1
         s=frontier.remove(f)
         if len(s[1]) > depth:
@@ -22,6 +28,5 @@ def search(n):
             frontier.insert(f,i)
     return 0
 
-# print (search(2))
 
 
