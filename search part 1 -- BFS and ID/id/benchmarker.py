@@ -20,7 +20,6 @@ def run_benchmark(size: int, num_runs: int):
             total_depth += answer[3]
             total_time += (toc-tic)
         except Exception:
-            # print("Timeout")
             timeouts += 1
             total_added += 10000
             total_removed += 10000
