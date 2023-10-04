@@ -1,0 +1,6 @@
+name,depth,inserts,removes,time
+bfs,1.61,3.63,3.79,0.0 seconds
+id,1.76,5.04,5.66,0.0 seconds
+uniform,1.86,4.21,4.32,0.00015077590942382812 seconds
+A*-h1,1.53,2.56,2.79,0.0001786947250366211 seconds
+A*-h2,1.65,2.56,2.7,5.998373031616211e-05 seconds
