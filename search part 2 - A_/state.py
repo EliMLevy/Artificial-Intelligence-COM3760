@@ -57,8 +57,38 @@ def if_legal(x,m):                  # gets a board and a move and makes the move
 def hdistance(s): #This is uniform cost and not based on any heuristic
     return 0
 
+# return the number of tiles out of place
 def hdistance1(s): #This will be the simple heuristic of the number of bricks not in place
-    return 0
+    out_of_place = 0
+    for i in range(len(s[0])):
+        if i != s[0][i]:
+            out_of_place += 1
+
+    # print(s)
+    # print(out_of_place)
+    return out_of_place
 
 def hdistance2(s): #This will be the Manhattan distance heuristic
+    # The distance away each tile is from where it is supposed to be
+    # Ex [1,5,2,4,7,9,3,6,8] 
+    #    [1,2,3,4,5,6,7,8,9]
+    #    [0,3,1,0,2,3,4]
+
+    # Two step problem: distance from correct row + dist from corr col
+    # Dist from row = abs(floor(id/3) - floor(index/3))
+    # Dist from col = abs(id%3 - index%3)
+
+    distance = 0
+    n = int(math.sqrt(len(s[0])))
+    for i in range(len(s[0])):
+        row_delta = abs(s[0][i]//n - i//n)
+        col_delta = abs(s[0][i]%n - i%n)
+        distance += row_delta
+        distance += col_delta
+
+    # print(s)
+    # print(out_of_place)
+    return distance
+
+
     return 0

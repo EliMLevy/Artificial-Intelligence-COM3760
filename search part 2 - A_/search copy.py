@@ -2,9 +2,6 @@
 
 import state
 import frontier
-import time
-
-max_time = 5
 
 def search(n):
     s=state.create(n)
@@ -13,10 +10,7 @@ def search(n):
     removed = 0
     depth = 0
     f=frontier.create(s)
-    tic = time.time()
     while not frontier.is_empty(f):
-        if max_time < time.time() - tic:
-            raise Exception("Timeout")
         removed += 1
         s=frontier.remove(f)
         if len(s[1]) > depth:

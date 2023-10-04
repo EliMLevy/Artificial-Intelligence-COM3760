@@ -1,0 +1,21 @@
+***Size: 2***
+100%|██████████████████████████████████████████████████████████████████████████████| 100/100 [00:00<00:00, 33143.45it/s]
+Timeouts: 0
+Average depth: 1.48
+Average number inserted: 2.37
+Average number removed: 2.6
+Average runtime: 3.0171871185302734e-05 seconds
+***Size: 3***
+100%|███████████████████████████████████████████████████████████████████████████████| 100/100 [00:00<00:00, 1840.79it/s] 
+Timeouts: 0
+Average depth: 5.85
+Average number inserted: 18.42
+Average number removed: 10.61
+Average runtime: 0.0005432462692260742 seconds
+***Size: 4***
+100%|█████████████████████████████████████████████████████████████████████████████████| 100/100 [00:21<00:00,  4.74it/s] 
+Timeouts: 1
+Average depth: 15.49
+Average number inserted: 1354.43
+Average number removed: 724.69
+Average runtime: 1.1606152868270874 seconds
