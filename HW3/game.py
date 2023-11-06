@@ -93,7 +93,7 @@ def inputMove(s):
 
 def value(s):
 #Returns the heuristic value of s
-    return naive_hueristic(s)
+    return defensive_corner_grabber_hueristic(s)
 
 def isFinished(s):
 #Returns True if the game ended
