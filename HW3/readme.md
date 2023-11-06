@@ -1,0 +1,3 @@
+# Othello
+
+My hueristics are found in the hueristics.py file. In auto_play.py is a script that allows me to play the hueristics against each other and thereby incrementally improve the performance.  The hueristic that I found performs the best is called defensive_corner_grabber_hueristic. It places a strong preference for taking the corners/sides and gives a negative value to playing in a space that might allow the opponent to get the corners/sides. In addition it places value in controlling the center four squares because in the late game those are critical to maintaining a majority of sqaures.
