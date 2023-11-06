@@ -84,7 +84,10 @@ The middle four squares are given value because in the end game, controlling the
 when the difference in pieces is close.
 '''
 def defensive_corner_grabber_hueristic(s):
-
+    '''
+    The following weights are applied to the board and summed to provide the overall hueristic value
+    of the game state. This hueristic yields an AI that I cannot beat.
+    '''
     mask = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
             1000, 10, 10, 10, 10, 10, 10, 1000, 0, 0,
             10, -5, -3, -3, -3, -3, -5, 10, 0, 0,
