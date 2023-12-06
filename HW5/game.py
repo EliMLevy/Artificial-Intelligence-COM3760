@@ -87,9 +87,6 @@ def checkForWinnerFast(s):
     return val
 
 def checkIfPieceEndedGame(s, r, c):
-    #   NE          E       SE      S       SW          W           NW      We dont need to check North because if the piece was just placed it is on top
-    # dr=[-SIZE+1,    0,      SIZE-1, SIZE-1, SIZE-1,     0,          -SIZE+1] 
-    # dc=[SIZE-1,     SIZE-1, SIZE-1, 0,      -SIZE+1,    -SIZE+1,    -SIZE+1]
     dirs = [(1, 0), (1, -1), (0, 1), (1, 1)]
     for dir in dirs:
         t = checkLongSeq(s, r, c, dir[0], dir[1])
@@ -100,20 +97,6 @@ def checkIfPieceEndedGame(s, r, c):
         return TIE
     
     return 0.1
-
-    # for i in range(len(dirs)):
-    #     for r_offset in range(-1, 2):
-    #         for c_offset in range(-1, 2):
-    #             if r + r_offset < 0 or r + r_offset >= rows or c + c_offset < 0 or c + c_offset >= columns:
-    #                 continue
-    #             t=checkSeq(s, r + r_offset, c + c_offset, r+dr[i] + r_offset, c+dc[i] + c_offset)
-    #             if t in [LOSS,VICTORY]:
-    #                 return t
-        
-    # if s.size == 0:
-    #     return TIE
-    
-    # return 0.1
         
 def checkSeq(s, r1, c1, r2, c2):
 #r1, c1 are in the board. if r2,c2 not on board returns 0.
@@ -329,7 +312,7 @@ def inputMC(s):
 
 
 def singleThreadedMC(s):
-    NUM_SIMULATIONS = 100
+    NUM_SIMULATIONS = 200
     best_col = -1
     best_win_rate = -1
     for col in range(columns): # For each col
