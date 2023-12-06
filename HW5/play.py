@@ -9,7 +9,7 @@ if __name__ == "__main__":
     game.decideWhoIsFirst(board)
     comp_count = 0
     total_time = 0
-    for i in range(0,1):#This loops takes about 15 seconds on my computer  
+    for i in range(0,100):#This loops takes about 15 seconds on my computer  
         huer_timer = 0
         mc_timer = 0
         tic = time.time()

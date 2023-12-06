@@ -87,12 +87,33 @@ def checkForWinnerFast(s):
     return val
 
 def checkIfPieceEndedGame(s, r, c):
-    dr=[-SIZE+1, -SIZE+1, 0, SIZE-1] 
-    dc=[0, SIZE-1, SIZE-1, SIZE-1]
-    for i in range(len(dr)):
-        t=checkSeq(s, r, c, r+dr[i], c+dc[i])
-        if t in [LOSS,VICTORY]:
+    #   NE          E       SE      S       SW          W           NW      We dont need to check North because if the piece was just placed it is on top
+    # dr=[-SIZE+1,    0,      SIZE-1, SIZE-1, SIZE-1,     0,          -SIZE+1] 
+    # dc=[SIZE-1,     SIZE-1, SIZE-1, 0,      -SIZE+1,    -SIZE+1,    -SIZE+1]
+    dirs = [(1, 0), (1, -1), (0, 1), (1, 1)]
+    for dir in dirs:
+        t = checkLongSeq(s, r, c, dir[0], dir[1])
+        if t in [LOSS, VICTORY]:
             return t
+
+    if s.size == 0:
+        return TIE
+    
+    return 0.1
+
+    # for i in range(len(dirs)):
+    #     for r_offset in range(-1, 2):
+    #         for c_offset in range(-1, 2):
+    #             if r + r_offset < 0 or r + r_offset >= rows or c + c_offset < 0 or c + c_offset >= columns:
+    #                 continue
+    #             t=checkSeq(s, r + r_offset, c + c_offset, r+dr[i] + r_offset, c+dc[i] + c_offset)
+    #             if t in [LOSS,VICTORY]:
+    #                 return t
+        
+    # if s.size == 0:
+    #     return TIE
+    
+    # return 0.1
         
 def checkSeq(s, r1, c1, r2, c2):
 #r1, c1 are in the board. if r2,c2 not on board returns 0.
@@ -107,6 +128,7 @@ def checkSeq(s, r1, c1, r2, c2):
     sum=0
 
     for i in range(SIZE):#summing the values in the seq.
+        # print(r1+i*dr, ",", c1+i*dc)
         sum += s.board[r1+i*dr][c1+i*dc]
 
     if sum == COMPUTER*SIZE:
@@ -121,6 +143,75 @@ def checkSeq(s, r1, c1, r2, c2):
         return 1
     return 0.00001 #not 0 because TIE is 0
 
+
+def checkLongSeq(s, r, c, step_r, step_c):
+
+    # r,c represent the spot on the bord that was just placed
+    # step_r will be -1, 0, or 1
+    # step_c will be -1, 0, or 1
+    # The job of this method is to check if someone has won checking the axis determined by step_r and step_c and anchored to
+    # point r,c
+    '''
+    r = 2
+    c = 4
+    step_r = 0
+    step_c = 1
+    | | | | | | | |
+    | | | | | | | |
+    |*|*|*|O|*|*|*|
+    | | | | | | | |
+    | | | | | | | |
+    | | | | | | | |
+    0 1 2 3 4 5 6
+    checks for a win along the axis indicated by *
+
+    start_r = end_r = r + SIZE*-step_r
+    start_c = end_c = c + SIZE*-step_c
+    check the sequence of SIZE from start_r,start_c as you add a new square, increase end_r,end_c
+    Then remove the square at start_r,start_c, increment start_r,start_c.
+    increment end_r,end_c and check
+    continue SIZE times
+    '''
+
+    start_r = r + SIZE*-step_r
+    start_c = c + SIZE*-step_c
+    end_r = r
+    end_c = c
+
+    sum = 0
+    for i in range(SIZE):
+        if start_r+i*step_r < 0 or start_r+i*step_r >= rows or start_c+i*step_c < 0 or start_c+i*step_c >= columns:
+            continue
+        sum += s.board[start_r+i*step_r][start_c+i*step_c]
+
+    # print(start_r, start_c, step_r, step_c, sum)
+
+    if sum == COMPUTER*SIZE:
+        return VICTORY
+
+    elif sum == HUMAN*SIZE:
+        return LOSS
+
+
+    for i in range(SIZE):
+        if start_r >= 0 and start_r < rows and start_c >= 0 and start_c < columns:
+            sum -= s.board[start_r][start_c]
+        start_r += step_r
+        start_c += step_c
+        if end_r >= 0 and end_r < rows and end_c >= 0 and end_c < columns:
+            sum += s.board[end_r][end_c]
+        # print(start_r, start_c, step_r, step_c, end_r, end_c, sum)
+        end_r += step_r
+        end_c += step_c
+
+
+        if sum == COMPUTER*SIZE:
+            return VICTORY
+
+        elif sum == HUMAN*SIZE:
+            return LOSS
+
+    return 0.00001
 
 def printState(s):
 #Prints the board. The empty cells are printed as numbers = the cells name(for input)
@@ -235,12 +326,7 @@ def inputHeuristic(s):
     
 def inputMC(s):
     return singleThreadedMC(s)
-    # if s.moves < 10:
-    #     # print("short")
-    #     return inputMCParallel(s)
-    # else:
-    #     # print("long")
-    #     return singleThreadedMC(s)
+
 
 def singleThreadedMC(s):
     NUM_SIMULATIONS = 100
@@ -253,52 +339,32 @@ def singleThreadedMC(s):
         wins = 0
         for i in range(NUM_SIMULATIONS):
             tmp2 = cpy(tmp)
-            while not checkIfPieceEndedGame(tmp2, r, c): # while game is not over
+            while checkIfPieceEndedGame(tmp2, r, c) not in [TIE, VICTORY, LOSS]: # while game is not over
                 r, c = inputTrueRandomAgentFast(tmp2) # player true random move
-            if value(tmp2) == VICTORY: # record if I won
+            if checkIfPieceEndedGame(tmp2, r, c) == VICTORY: # record if I won
                  wins += 1
+            # else:
+                # print(checkIfPieceEndedGame(tmp2, r, c))
+                # printState(tmp2)
         if wins > best_win_rate: 
             best_win_rate = wins
             best_col = col
+
+    # print("Best col to pick: ", best_col, " with a win rate of: ", best_win_rate)
     
     makeMove(s, best_col) # Go in the col that had the best win percentage
     return best_col
 
-def simulate_col(args):
-    col, s = args
-    NUM_SIMULATIONS = 100
-    tmp = cpy(s)
-    makeMove(tmp, col)
-    wins = 0
-    for _ in range(NUM_SIMULATIONS):
-        tmp2 = cpy(tmp)
-        while not isFinished(tmp2):
-            inputTrueRandomAgentFast(tmp2)
-        if value(tmp2) == VICTORY:
-            wins += 1
-    return col, wins
+
         
-
-def inputMCParallel(s):
-    best_col = -1
-    best_win_rate = -1
-
-    with concurrent.futures.ProcessPoolExecutor() as executor:
-        results = list(executor.map(simulate_col,  [(col, s) for col in range(columns)]))
-
-    for col, wins in results:
-        if wins > best_win_rate:
-            best_win_rate = wins
-            best_col = col
-
-    makeMove(s, best_col)
-    return best_col
 
 def inputTrueRandomAgentFast(s):
     valid_columns = [col for col in range(columns) if s.board[0][col] == 0]
     
     if not valid_columns:
-        print("No valid moves.")
+        printState(s)
+
+        print("No valid moves.", s.size)
         return
     
     c = random.choice(valid_columns)
