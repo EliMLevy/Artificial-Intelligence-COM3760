@@ -118,7 +118,7 @@ pick the best move. However, incorporating those checks would probably be consid
 and are innapropriate to implement for a monte carlo AI homework assignment. 
 '''
 def singleThreadedMC(s):
-    NUM_SIMULATIONS = 30 # I was able to go up to 200 in a reasonable amount of time with my optimizations
+    NUM_SIMULATIONS = 100 # I was able to go up to 200 in a reasonable amount of time with my optimizations
     best_col = -1
     best_win_rate = -1
     for col in range(game.columns): # For each col
